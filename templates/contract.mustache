@@ -1,0 +1,44 @@
+import { BN } from 'bn.js'
+import { Provider } from 'web3/providers'
+import { Tx } from 'web3/eth/types'
+import truffle from 'truffle-contract'
+
+export namespace {{contractName}} {
+  export const ARTIFACT = require('{{relativeArtifactPath}}')
+
+  export interface Contract {
+    address: string
+
+  {{#each getters}}
+    {{> getter contractName=../contractName}}
+  {{/each}}
+
+  {{#each functions}}
+    {{> function contractName=../contractName}}
+  {{/each}}
+
+  {{#each events}}
+    {{> filter contractName=../contractName}}
+  {{/each}}
+
+    send: (value: BN | number) => Promise<truffle.TransactionResult>
+    sendTransaction: (opts: Web3.CallData) => Promise<truffle.TransactionResult>
+  }
+
+{{#each events}}
+{{> event contractName=../contractName}}
+{{/each}}
+
+  export function contract (provider?: Provider, defaults?: Tx): truffle.TruffleContract<Contract> {
+    let instance = truffle<Contract>(ARTIFACT)
+    if (provider) {
+      instance.setProvider(provider)
+    }
+    if (defaults) {
+      instance.defaults(defaults)
+    }
+    return instance
+  }
+}
+
+export default {{contractName}}

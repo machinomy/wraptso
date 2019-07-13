@@ -1,3 +1,3 @@
-import Wraptso from './Wraptso'
+import Wraptso from "./Wraptso";
 
-export default Wraptso
+export default Wraptso;

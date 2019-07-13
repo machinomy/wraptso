@@ -1,83 +1,83 @@
-import * as path from 'path'
-import * as fs from 'fs'
-import Context, { MethodAbi, EventAbi } from './Context'
-import * as helpers from './helpers'
-import {ABIDefinition} from 'web3/eth/abi'
-const Handlebars = require('handlebars')
+import * as path from "path";
+import * as fs from "fs";
+import Context, { MethodAbi, EventAbi } from "./Context";
+import * as helpers from "./helpers";
+import { ABIDefinition } from "web3/eth/abi";
+const Handlebars = require("handlebars");
 
-const ABI_TYPE_FUNCTION = 'function'
-const ABI_TYPE_EVENT = 'event'
+const ABI_TYPE_FUNCTION = "function";
+const ABI_TYPE_EVENT = "event";
 
-function isAbiFunction (abi: ABIDefinition): abi is MethodAbi {
-  return abi.type === ABI_TYPE_FUNCTION
+function isAbiFunction(abi: ABIDefinition): abi is MethodAbi {
+  return abi.type === ABI_TYPE_FUNCTION;
 }
 
-function isAbiEvent (abi: ABIDefinition): abi is EventAbi {
-  return abi.type === ABI_TYPE_EVENT
+function isAbiEvent(abi: ABIDefinition): abi is EventAbi {
+  return abi.type === ABI_TYPE_EVENT;
 }
 
 export default class ContractTemplate {
-  handlebars: any
-  templatesDir: string
-  outputDir: string
-  private _template?: any
+  handlebars: any;
+  templatesDir: string;
+  outputDir: string;
+  private _template?: any;
 
-  constructor (templatesDir: string, outputDir: string) {
-    this.handlebars = Handlebars.create()
-    this.templatesDir = templatesDir
-    this.outputDir = outputDir
-    this.registerPartials()
-    this.registerHelpers()
+  constructor(templatesDir: string, outputDir: string) {
+    this.handlebars = Handlebars.create();
+    this.templatesDir = templatesDir;
+    this.outputDir = outputDir;
+    this.registerPartials();
+    this.registerHelpers();
   }
 
-  get template () {
+  get template() {
     if (this._template) {
-      return this._template
+      return this._template;
     } else {
-      let contents = this.readTemplate('contract.mustache')
-      this._template = this.handlebars.compile(contents)
-      return this._template
+      let contents = this.readTemplate("contract.mustache");
+      this._template = this.handlebars.compile(contents);
+      return this._template;
     }
   }
 
-  registerPartials () {
+  registerPartials() {
     fs.readdirSync(this.templatesDir).forEach(file => {
-      let match = file.match(/^_(\w+)\.(handlebars|mustache)/)
+      let match = file.match(/^_(\w+)\.(handlebars|mustache)/);
       if (match) {
-        this.handlebars.registerPartial(match[1], this.readTemplate(file))
+        this.handlebars.registerPartial(match[1], this.readTemplate(file));
       }
-    })
+    });
   }
 
-  registerHelpers () {
-    this.handlebars.registerHelper('inputType', helpers.inputType)
-    this.handlebars.registerHelper('outputType', helpers.outputType)
+  registerHelpers() {
+    this.handlebars.registerHelper("inputType", helpers.inputType);
+    this.handlebars.registerHelper("outputType", helpers.outputType);
   }
 
-  render (abiFilePath: string) {
-    let artifact = JSON.parse(fs.readFileSync(abiFilePath).toString())
-    let abi = artifact.abi as Array<ABIDefinition> | null
+  render(abiFilePath: string) {
+    let artifact = JSON.parse(fs.readFileSync(abiFilePath).toString());
+    let abi = artifact.abi as Array<ABIDefinition> | null;
     if (abi) {
       let methods = abi.filter(isAbiFunction).map(abi => {
         if (abi.outputs && abi.outputs.length === 1) {
-          abi.singleReturnValue = true
+          abi.singleReturnValue = true;
         }
-        abi.inputs = abi.inputs || []
+        abi.inputs = abi.inputs || [];
         abi.inputs = abi.inputs.map((input, index) => {
-          input.name = input.name ? input.name : `param${index}`
-          return input
-        })
-        return abi
-      })
-      let getters = methods.filter((abi: MethodAbi) => abi.constant)
-      let functions = methods.filter((abi: MethodAbi) => !abi.constant)
+          input.name = input.name ? input.name : `param${index}`;
+          return input;
+        });
+        return abi;
+      });
+      let getters = methods.filter((abi: MethodAbi) => abi.constant);
+      let functions = methods.filter((abi: MethodAbi) => !abi.constant);
 
-      let events = abi.filter(isAbiEvent)
+      let events = abi.filter(isAbiEvent);
 
-      let contractName = path.parse(abiFilePath).name
-      const basename = path.basename(abiFilePath, path.extname(abiFilePath))
-      const filePath = `${this.outputDir}/${basename}.ts`
-      const relativeArtifactPath = path.relative(this.outputDir, abiFilePath)
+      let contractName = path.parse(abiFilePath).name;
+      const basename = path.basename(abiFilePath, path.extname(abiFilePath));
+      const filePath = `${this.outputDir}/${basename}.ts`;
+      const relativeArtifactPath = path.relative(this.outputDir, abiFilePath);
 
       let context: Context = {
         artifact: JSON.stringify(artifact, null, 2),
@@ -86,16 +86,16 @@ export default class ContractTemplate {
         getters: getters,
         functions: functions,
         events: events
-      }
-      let code = this.template(context)
-      fs.writeFileSync(filePath, code)
+      };
+      let code = this.template(context);
+      fs.writeFileSync(filePath, code);
     } else {
-      throw new Error(`No ABI found in ${abiFilePath}.`)
+      throw new Error(`No ABI found in ${abiFilePath}.`);
     }
   }
 
-  protected readTemplate (name: string) {
-    let file = path.resolve(this.templatesDir, name)
-    return fs.readFileSync(file).toString()
+  protected readTemplate(name: string) {
+    let file = path.resolve(this.templatesDir, name);
+    return fs.readFileSync(file).toString();
   }
 }

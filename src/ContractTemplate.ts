@@ -1,6 +1,6 @@
-import * as path from "path";
-import * as fs from "fs";
-import Context, { MethodAbi, EventAbi } from "./Context";
+import path from "path";
+import fs from "fs";
+import { Context, MethodAbi, EventAbi } from "./Context";
 import * as helpers from "./helpers";
 import { ABIDefinition } from "web3/eth/abi";
 const Handlebars = require("handlebars");
@@ -16,7 +16,7 @@ function isAbiEvent(abi: ABIDefinition): abi is EventAbi {
   return abi.type === ABI_TYPE_EVENT;
 }
 
-export default class ContractTemplate {
+export class ContractTemplate {
   handlebars: any;
   templatesDir: string;
   outputDir: string;

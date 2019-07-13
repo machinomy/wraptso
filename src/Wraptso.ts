@@ -1,10 +1,10 @@
-import * as fs from "fs";
-import ContractTemplate from "./ContractTemplate";
-import * as glob from "glob";
-import * as mkdirp from "mkdirp";
-import * as path from "path";
+import fs from "fs";
+import { ContractTemplate } from "./ContractTemplate";
+import glob from "glob";
+import mkdirp from "mkdirp";
+import path from "path";
 
-export default class Wraptso {
+export class Wraptso {
   templatesDir: string;
   outputDir: string;
   pattern: string;

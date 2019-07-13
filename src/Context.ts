@@ -6,7 +6,7 @@ export interface MethodAbi extends ABIDefinition {
 
 export interface EventAbi extends ABIDefinition {}
 
-export default interface Context {
+export interface Context {
   artifact: string;
   contractName: string;
   relativeArtifactPath: string;

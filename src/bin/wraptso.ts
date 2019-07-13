@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import yargs from "yargs";
-import Wraptso from "../index";
+import { Wraptso } from "../index";
 
 export interface T {
   contracts: string;

@@ -1,4 +1,4 @@
-import { BN } from 'bn.js'
+import BigNumber from 'bn.js'
 import { Provider } from 'web3/providers'
 import { Tx } from 'web3/eth/types'
 import truffle from 'truffle-contract'
@@ -20,15 +20,13 @@ export namespace {{contractName}} {
   {{#each events}}
     {{> filter contractName=../contractName}}
   {{/each}}
-
     send: (value: BN | number) => Promise<truffle.TransactionResult>
-    sendTransaction: (opts: Web3.CallData) => Promise<truffle.TransactionResult>
+    sendTransaction: (opts: Tx) => Promise<truffle.TransactionResult>
   }
 
 {{#each events}}
 {{> event contractName=../contractName}}
 {{/each}}
-
   export function contract (provider?: Provider, defaults?: Tx): truffle.TruffleContract<Contract> {
     let instance = truffle<Contract>(ARTIFACT)
     if (provider) {
@@ -40,5 +38,3 @@ export namespace {{contractName}} {
     return instance
   }
 }
-
-export default {{contractName}}

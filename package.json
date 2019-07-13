@@ -25,7 +25,7 @@
     "build": "tsc --project tsconfig.json",
     "test": "exit 0",
     "coverage": "exit 0",
-    "lint": "tslint --format stylish --project ."
+    "prettier": "prettier --write \"./src/**/*.ts\""
   },
   "dependencies": {
     "@types/web3": "^1.0.18",

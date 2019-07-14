@@ -20,17 +20,13 @@ export class Wraptso {
       mkdirp.sync(this.outputDir);
     }
 
-    let fileNames = glob.sync(this.pattern);
-    if (fileNames.length) {
-      fileNames.forEach(fileName => {
-        let transformer = new ContractTemplate(
-          this.templatesDir,
-          this.outputDir
-        );
-        transformer.render(fileName);
-      });
-    } else {
-      throw new Error(`No Truffle Contract artifact found at ${this.pattern}`);
+    const fileNames = glob.sync(this.pattern);
+    if (fileNames.length == 0) {
+      console.warn(`No Truffle Contract artifact found at ${this.pattern}`);
     }
+    fileNames.forEach(fileName => {
+      let transformer = new ContractTemplate(this.templatesDir, this.outputDir);
+      transformer.render(fileName);
+    });
   }
 }

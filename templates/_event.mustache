@@ -6,6 +6,6 @@
   {{/if}}
   }
 
-  export function is{{this.name}}Event (something: truffle.AnyTransactionEvent): something is truffle.TransactionEvent<{{this.name}}> {
+  export function is{{this.name}}Event (something: any): something is truffle.TransactionEvent<{{this.name}}> {
     return something.event === '{{this.name}}'
   }

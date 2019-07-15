@@ -20,7 +20,7 @@ export namespace {{contractName}} {
   {{#each events}}
     {{> filter contractName=../contractName}}
   {{/each}}
-    send: (value: BN | number) => Promise<truffle.TransactionResult>
+    send: (value: BigNumber | number) => Promise<truffle.TransactionResult>
     sendTransaction: (opts: Tx) => Promise<truffle.TransactionResult>
   }
 

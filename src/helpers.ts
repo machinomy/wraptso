@@ -12,7 +12,7 @@ const TYPE_MAPPING = [
 ];
 
 const INPUT_TYPE_MAPPING = [
-  { regex: "^u?int(8|16|32|64|128|256)?$", tsType: "number | BigNumber" }
+  { regex: "^u?int(8|16|32|64|128|256)?$", tsType: "number | string" }
 ].concat(TYPE_MAPPING);
 
 const ARRAY_BRACES = /\[\d*]$/;

@@ -7,7 +7,7 @@ const TYPE_MAPPING = [
   { regex: "^string$", tsType: "string" },
   { regex: "^address$", tsType: "string" },
   { regex: "^bool$", tsType: "boolean" },
-  { regex: "^u?int\\d*$", tsType: "BigNumber" },
+  { regex: "^u?int\\d*$", tsType: "string" },
   { regex: "^bytes\\d*$", tsType: "string" }
 ];
 

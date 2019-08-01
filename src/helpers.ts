@@ -8,7 +8,8 @@ const TYPE_MAPPING = [
   { regex: "^address$", tsType: "string" },
   { regex: "^bool$", tsType: "boolean" },
   { regex: "^u?int\\d*$", tsType: "BigNumber" },
-  { regex: "^bytes\\d*$", tsType: "string" }
+  { regex: "^bytes\\d+$", tsType: "string" },
+  { regex: "^bytes$", tsType: "string | Buffer" }
 ];
 
 const INPUT_TYPE_MAPPING = [

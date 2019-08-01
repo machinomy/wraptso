@@ -26,20 +26,17 @@
     "prettier": "prettier --write \"./src/**/*.ts\""
   },
   "dependencies": {
-    "@types/web3": "^1.0.19",
-    "chalk": "^2.4.2",
-    "console.table": "^0.10.0",
     "glob": "^7.1.4",
     "handlebars": "^4.1.2",
     "mkdirp": "^0.5.1",
-    "web3-eth-abi": "1.0.0",
-    "yargs": "^13.2.4"
+    "yargs": "^13.3.0"
   },
   "devDependencies": {
+    "@types/web3": "^1.0.19",
     "@types/glob": "^7.1.1",
     "@types/mkdirp": "^0.5.2",
-    "@types/yargs": "^13.0.0",
+    "@types/yargs": "^13.0.2",
     "prettier": "1.18.2",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.3"
   }
 }

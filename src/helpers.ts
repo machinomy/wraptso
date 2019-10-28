@@ -9,7 +9,8 @@ const TYPE_MAPPING = [
   { regex: "^bool$", tsType: "boolean" },
   { regex: "^u?int\\d*$", tsType: "BigNumber" },
   { regex: "^bytes\\d+$", tsType: "string" },
-  { regex: "^bytes$", tsType: "string | Buffer" }
+  { regex: "^bytes$", tsType: "string | Buffer" },
+  { regex: "tuple", tsType: "any" }
 ];
 
 const INPUT_TYPE_MAPPING = [

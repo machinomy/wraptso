@@ -2,17 +2,17 @@ import path from "path";
 import fs from "fs";
 import { Context, MethodAbi, EventAbi } from "./Context";
 import * as helpers from "./helpers";
-import { ABIDefinition } from "web3/eth/abi";
+import { AbiItem } from "web3-utils";
 const Handlebars = require("handlebars");
 
 const ABI_TYPE_FUNCTION = "function";
 const ABI_TYPE_EVENT = "event";
 
-function isAbiFunction(abi: ABIDefinition): abi is MethodAbi {
+function isAbiFunction(abi: AbiItem): abi is MethodAbi {
   return abi.type === ABI_TYPE_FUNCTION;
 }
 
-function isAbiEvent(abi: ABIDefinition): abi is EventAbi {
+function isAbiEvent(abi: AbiItem): abi is EventAbi {
   return abi.type === ABI_TYPE_EVENT;
 }
 
@@ -56,7 +56,7 @@ export class ContractTemplate {
 
   render(abiFilePath: string) {
     let artifact = JSON.parse(fs.readFileSync(abiFilePath).toString());
-    let abi = artifact.abi as Array<ABIDefinition> | null;
+    let abi = artifact.abi as Array<AbiItem> | null;
     if (abi) {
       let methods = abi.filter(isAbiFunction).map(abi => {
         if (abi.outputs && abi.outputs.length === 1) {

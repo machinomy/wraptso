@@ -1,10 +1,10 @@
-import { ABIDefinition } from "web3/eth/abi";
+import { AbiItem } from "web3-utils";
 
-export interface MethodAbi extends ABIDefinition {
+export interface MethodAbi extends AbiItem {
   singleReturnValue: boolean;
 }
 
-export interface EventAbi extends ABIDefinition {}
+export interface EventAbi extends AbiItem {}
 
 export interface Context {
   artifact: string;
